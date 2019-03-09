@@ -64,6 +64,15 @@ func (character *Fighter) PrintStats() {
 func (character *Fighter) GetName() string {
 	return character.Name
 }
+
+func (character *Fighter) Clone() Character {
+	clone := &Fighter {
+		HitPoints: character.HitPoints,
+		Stamina: character.Stamina,
+		Name: fmt.Sprintf("%s's Clone", character.Name),
+	}
+	return clone
+}
 //package main
 //
 //import "fmt"

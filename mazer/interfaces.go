@@ -16,4 +16,5 @@ type Character interface {
 	ChangeStamina(amount int)
 	PrintStats()
 	GetName() string
+	Clone() Character
 }
