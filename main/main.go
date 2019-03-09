@@ -3,7 +3,14 @@ package main
 import (
 	"fmt"
 	"github.com/Dreznel/mazer/mazer"
+	"time"
 )
+
+func timeTrack(startTime time.Time, name string) int64 {
+	elapsedTime := time.Since(startTime)
+	fmt.Println(fmt.Sprintf("%s took %d nanoseconds.\n", name, elapsedTime.Nanoseconds()))
+	return elapsedTime.Nanoseconds()
+}
 
 func main() {
 	var rooms []mazer.Room
@@ -15,17 +22,48 @@ func main() {
 	//}
 
 	c1 := mazer.NewFighter("The Bravest Noob")
-	c1.PrintStats()
+	c2 := mazer.NewFighter("Teddin McLanhaw")
+	c3 := mazer.NewFighter("Sir Kero Kero, Frog Warrior")
 
+	characterList := []mazer.Character{c1, c2, c3,}
 
-	for roomNumber, room := range(rooms) {
-		roomCleared := false
-		for roomUncleared := true; roomUncleared && !c1.IsDead(); roomUncleared = !roomCleared {
-			fmt.Println(fmt.Sprintf("Character is attempting room %d", roomNumber))
-			roomCleared = room.DoChallenge(c1)
-			fmt.Println()
-		}
+	runGame(characterList, rooms)
+
+	fmt.Println("\n#########\nFinal results:\n######### ")
+	for _, character := range(characterList) {
+		character.PrintStats()
+		fmt.Println()
 	}
 
-	c1.PrintStats()
+
+
+}
+
+func runGame(characters []mazer.Character, maze []mazer.Room) {
+	defer timeTrack(time.Now(), "Overall Game")
+
+	for _, character := range(characters) {
+		sendThroughMaze(character, maze)
+	}
+}
+
+func sendThroughMaze(character mazer.Character, maze []mazer.Room) {
+	defer timeTrack(time.Now(), fmt.Sprintf("%s's journey", character.GetName()))
+
+	fmt.Print(fmt.Sprintf("%s's journey: Entrance-", character.GetName()))
+	for roomNumber, room := range(maze) {
+		roomCleared := false
+		for roomUncleared := true; roomUncleared && !character.IsDead(); roomUncleared = !roomCleared {
+			fmt.Print(fmt.Sprintf("%d-", roomNumber))
+			roomCleared = room.DoChallenge(character)
+		}
+	}
+	if(character.IsDead()) {
+		fmt.Print("☠")
+	} else {
+		fmt.Print("Exit")
+	}
+	fmt.Println()
+
+	// character.PrintStats()
 }

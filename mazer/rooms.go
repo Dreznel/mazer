@@ -1,7 +1,5 @@
 package mazer
 
-import "fmt"
-
 type MonsterRoom struct {
 	MonsterHp int
 	Strength int
@@ -31,22 +29,22 @@ func (room *MonsterRoom) DoChallenge(character Character) bool {
 	monsterAttack := Roll(room.Strength, 8)
 	characterAttack := character.Attack()
 
-	fmt.Println(fmt.Sprintf("Monster attacks! (%d)", monsterAttack))
+	//fmt.Println(fmt.Sprintf("Monster attacks! (%d)", monsterAttack))
 
 	if(monsterAttack >= characterAttack) {
-		fmt.Println("Character fails his attack!")
+		//fmt.Println("Character fails his attack!")
 		character.ChangeHp(characterAttack - monsterAttack)
 		if(character.IsDead()) {
-			fmt.Println("Character has been slain!")
+			//fmt.Println("Character has been slain!")
 		}
 		return false
 	} else {
-		fmt.Println("Character attacks successfully!")
+		//fmt.Println("Character attacks successfully!")
 		room.MonsterHp -= characterAttack - monsterAttack
 		if room.MonsterHp > 0 {
 			return false
 		} else {
-			fmt.Println("Monster is slain!")
+			//fmt.Println("Monster is slain!")
 			character.GetTreasure(room.TreasureRemaining)
 			return true
 		}

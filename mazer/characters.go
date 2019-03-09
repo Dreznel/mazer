@@ -21,7 +21,7 @@ func NewFighter(name string) (Character) {
 
 func (character *Fighter) Attack() int {
 	attackRoll := Roll(2, 10)
-	fmt.Println(fmt.Sprintf("%s attacks! (%d)", character.Name, attackRoll))
+	// fmt.Println(fmt.Sprintf("%s attacks! (%d)", character.Name, attackRoll))
 	return attackRoll
 }
 
@@ -54,7 +54,15 @@ func (character *Fighter) ChangeStamina(amount int) {
 }
 
 func (character *Fighter) PrintStats() {
-	fmt.Println(fmt.Sprintf("Name: %s\nHP Remaining: %d\nStamina Remaining: %d\nTotal Treasure: %d", character.Name, character.HitPoints, character.Stamina, character.Treasure))
+	deathIndicator := ""
+	if(character.IsDead()) {
+		deathIndicator = "(Deceased)"
+	}
+	fmt.Println(fmt.Sprintf("Name: %s %s\nHP Remaining: %d\nStamina Remaining: %d\nTotal Treasure: %d", deathIndicator, character.Name, character.HitPoints, character.Stamina, character.Treasure))
+}
+
+func (character *Fighter) GetName() string {
+	return character.Name
 }
 //package main
 //

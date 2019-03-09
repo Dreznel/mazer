@@ -15,4 +15,5 @@ type Character interface {
 	ChangeHp(amount int)
 	ChangeStamina(amount int)
 	PrintStats()
+	GetName() string
 }
